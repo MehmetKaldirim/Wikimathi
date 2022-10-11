@@ -13,17 +13,17 @@ public class KafkaDatabaseConsumer {
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaDatabaseConsumer.class);
 
     private final WikimediaDataRepository dataRepository;
-    private final WikimediaData wikimediaData;
 
-    public KafkaDatabaseConsumer(WikimediaDataRepository dataRepository, WikimediaData wikimediaData) {
+
+    public KafkaDatabaseConsumer(WikimediaDataRepository dataRepository) {
         this.dataRepository = dataRepository;
-        this.wikimediaData = wikimediaData;
     }
 
     //SpringFramework.kafka....
-    @KafkaListener(topics = "wikimedia_recent_change",groupId = "myGroup")
+    @KafkaListener(topics = "${spring.kafka.topic.name}",groupId = "${spring.kafka.consumer.group-id}")
     public void consume(String eventMessage){
         LOGGER.info(String.format("Event message received ->%s", eventMessage));
+        WikimediaData wikimediaData =  new WikimediaData();
         wikimediaData.setWikiEventData(eventMessage);
         dataRepository.save(wikimediaData);
     }

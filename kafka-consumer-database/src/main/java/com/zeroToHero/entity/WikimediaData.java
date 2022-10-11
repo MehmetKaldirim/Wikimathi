@@ -2,7 +2,6 @@ package com.zeroToHero.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
